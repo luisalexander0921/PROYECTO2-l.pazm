@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario de Ingredientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Inventario de Ingredientes</h1>
+    <div class="inventario">
+        {% if inventario %}
+            <ul>
+                {% for ingrediente, cantidad in inventario.items() %}
+                <li>{{ ingrediente }}: {{ cantidad }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>El inventario está vacío.</p>
+        {% endif %}
+    </div>
+    <a href="{{ url_for('index') }}">Volver</a>
+</body>
+</html>

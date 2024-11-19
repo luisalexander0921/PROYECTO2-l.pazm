@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Producto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Agregar Producto</h1>
+    <form action="{{ url_for('agregar_producto') }}" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+        
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" name="precio" step="0.01" required><br>
+        
+        <label for="tipo">Tipo (Copa/Malteada):</label>
+        <input type="text" id="tipo" name="tipo" required><br>
+        
+        <div id="ingredientes">
+            <h3>Ingredientes</h3>
+            {% for i in range(3) %}
+            <label for="nombre_ingrediente_{{ i+1 }}">Nombre Ingrediente {{ i+1 }}:</label>
+            <input type="text" id="nombre_ingrediente_{{ i+1 }}" name="nombre_ingrediente_{{ i+1 }}" required><br>
+            
+            <label for="precio_ingrediente_{{ i+1 }}">Precio Ingrediente {{ i+1 }}:</label>
+            <input type="number" id="precio_ingrediente_{{ i+1 }}" name="precio_ingrediente_{{ i+1 }}" step="0.01" required><br>
+            
+            <label for="calorias_ingrediente_{{ i+1 }}">Calorías Ingrediente {{ i+1 }}:</label>
+            <input type="number" id="calorias_ingrediente_{{ i+1 }}" name="calorias_ingrediente_{{ i+1 }}" required><br>
+            {% endfor %}
+        </div>
+        
+        <div id="copa" style="display: none;">
+            <label for="tipo_vaso">Tipo de Vaso:</label>
+            <input type="text" id="tipo_vaso" name="tipo_vaso"><br>
+        </div>
+        
+        <div id="malteada" style="display: none;">
+            <label for="volumen">Volumen (onzas):</label>
+            <input type="number" id="volumen" name="volumen"><br>
+        </div>
+        
+        <button type="submit">Agregar Producto</button>
+    </form>
+    <a href="{{ url_for('index') }}">Volver</a>
+    <script>
+        document.getElementById('tipo').addEventListener('input', function() {
+            var tipo = this.value.toLowerCase();
+            document.getElementById('copa').style.display = tipo === 'copa' ? 'block' : 'none';
+            document.getElementById('malteada').style.display = tipo === 'malteada' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>

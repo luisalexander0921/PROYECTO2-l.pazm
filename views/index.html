@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heladería Python</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Mi Heladería</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('agregar_producto') }}">Agregar Producto</a></li>
+                <li><a href="{{ url_for('vender_producto') }}">Vender Producto</a></li>
+                <li><a href="{{ url_for('ver_inventario') }}">Ver Inventario</a></li>
+                <li><a href="{{ url_for('calcular_ganancias') }}">Calcular Ganancias</a></li>
+                <li><a href="{{ url_for('producto_mas_rentable') }}">Producto Más Rentable</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Productos Disponibles</h2>
+            <div class="productos">
+                {% for producto in productos %}
+                <article class="producto">
+                    <h2>{{ producto.nombre }}</h2>
+                    <p>Precio: ${{ producto.precio_publico }}</p>
+                    <p>Tipo: {{ producto.tipo_vaso if producto.tipo_vaso else producto.volumen }}</p>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Curso de Python</p>
+    </footer>
+</body>
+</html>
