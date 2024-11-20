@@ -15,13 +15,27 @@ class Heladeria:
         session.commit()
 
     def vender_producto(self, nombre):
+        # Buscar el producto (Copa o Malteada) por nombre
         producto = session.query(Copa).filter_by(nombre=nombre).first() or session.query(Malteada).filter_by(nombre=nombre).first()
+        
         if producto:
+            # Verificar los ingredientes del producto en el inventario
+            ingredientes_faltantes = []
+            for ingrediente in [producto.ingrediente_1, producto.ingrediente_2, producto.ingrediente_3]:
+                if not session.query(Ingrediente).filter_by(nombre=ingrediente).first():
+                    ingredientes_faltantes.append(ingrediente)
+
+            if ingredientes_faltantes:
+                # Si faltan ingredientes, lanzar un ValueError con el nombre del ingrediente faltante
+                raise ValueError(f"¡Oh no! Nos hemos quedado sin {' y '.join(ingredientes_faltantes)}")
+
+            # Si todo está bien, realizar la venta
             self.productos.remove(producto)
             session.delete(producto)
             session.commit()
-            return True
-        return False
+            return "¡Vendido!"
+        
+        return "Producto no encontrado."
 
     def ver_inventario(self):
         return {ingrediente.nombre: ingrediente for ingrediente in session.query(Ingrediente).all()}
